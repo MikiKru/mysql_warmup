@@ -62,3 +62,6 @@ where
     
 select *, salary_net * 1.23 as salary_gross from employee;
 
+-- polecenie usuwające rekordy z tabeli
+-- delete from employee;							- polecenie usuwające wszystkie rekordy z tabelki employee	
+-- delete from employee where salary < 5000;		- polecenie usuwające rekordy z tabelki employee spełniające warunek	

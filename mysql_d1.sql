@@ -82,8 +82,30 @@ select *, truncate(salary_net, 1) as salary_truncated from employee;
 truncate table employee;
 
 -- 'YYYY-MM-DD'
-select '2000-01-01' regexp '^[12][09][0-9]{2}-[01][0-9]-[0-3][0-9]$' as regex;
 
+
+select 
+	@empl_date regexp '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' as regex, 
+    year(@empl_date) as year, 
+    month(@empl_date) as month,
+    day(@empl_date) as day;
+ 
+-- zapytanie sprawdzająca poprawność daty
+SET @empl_date = '2001-13-31';
+select 
+	@empl_date as date_to_valid,
+    @empl_date regexp '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' as regex,
+    mid(@empl_date,1,4) between 1900 and year(now()) as year_valid,
+    mid(@empl_date,6,2) between 1 and 12 as month_valid,
+    if(mid(@empl_date,6,2) in (1,3,5,7,8,10,12),
+		mid(@empl_date,9,2) between 1 and 31,
+		if(mid(@empl_date,6,2) in (4,6,9,11),
+			mid(@empl_date,9,2) between 1 and 30,
+			if(mid(@empl_date,6,2) = 2 and (year(@empl_date) % 4) = 0, 
+				mid(@empl_date,9,2) between 1 and 29,
+				mid(@empl_date,9,2) between 1 and 28)
+		)
+	) as day_valid;
 
 
 

@@ -78,6 +78,12 @@ select
 from 
 	titanic;
 
+-- porównanie za pomocą like - wypisz pasażerów których nazwisko zaczyna się na literę c
+select * from titanic where 'C' = upper(substring(name,1,1)); 
+select * from titanic where name like 'C%'; 
+select * from titanic where upper(name) like 'C%' and upper(name) like '%A'; 
+
+
 
 
 

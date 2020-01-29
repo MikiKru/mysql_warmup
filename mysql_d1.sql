@@ -65,3 +65,28 @@ select *, salary_net * 1.23 as salary_gross from employee;
 -- polecenie usuwające rekordy z tabeli
 -- delete from employee;							- polecenie usuwające wszystkie rekordy z tabelki employee	
 -- delete from employee where salary < 5000;		- polecenie usuwające rekordy z tabelki employee spełniające warunek	
+
+-- delete vs truncate
+select * from employee;
+delete from employee;	-- usuwa rekord, ale nie zeruje global_id
+insert into employee values (default, 'test', 'test', 5000, 'M', now(), default, 'test', '1233212342');
+insert into employee values (default, 'test', 'test', 5000, 'M', now(), default, 'test', '1233212343');
+insert into employee values (default, 'test', 'test', 5000, 'M', now(), default, 'test', '1233212344');
+select last_insert_id();
+
+truncate table employee;
+insert into employee values (4, 'test', 'test', 5000.12, 'M', now(), default, 'test', '1233212349');
+
+select *, truncate(salary_net, 1) as salary_truncated from employee;
+
+truncate table employee;
+
+-- 'YYYY-MM-DD'
+select '2000-01-01' regexp '^[12][09][0-9]{2}-[01][0-9]-[0-3][0-9]$' as regex;
+
+
+
+
+
+
+

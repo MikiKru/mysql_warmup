@@ -83,6 +83,30 @@ select * from titanic where 'C' = upper(substring(name,1,1));
 select * from titanic where name like 'C%'; 
 select * from titanic where upper(name) like 'C%' and upper(name) like '%A'; 
 
+set @avg_fare = (select avg(fare) from titanic);
+select @avg_fare;
+
+-- wpyisz pasażerów którzy zapłacili za bilet powyżej średniej globalnej
+select * from titanic where fare > @avg_fare;
+
+-- wypisz pasażerów klasy pierwszej którzy I za bilet poniżej średniej ceny biletu dla klasy I
+set @avg_fare_1class = (select avg(fare) from titanic where pclass = 1);
+select 
+	*, 
+    round(@avg_fare_1class,2) as 'average fare',
+    round(@avg_fare_1class - fare,2) as avg_fare_diff
+from 
+	titanic 
+where 
+	fare < @avg_fare_1class and pclass = 1;
+    
+-- kto był na rejście najstarszy
+set @max_age = (select max(age) from titanic);
+select * from titanic where age = @max_age;
+
+-- kto był najstarszym nie uratowanym pasażerem
+set @max_age_survived = (select max(age) from titanic where survived = 0);
+select * from titanic where age = @max_age_survived;
 
 
 

@@ -34,7 +34,6 @@ select
 from 
 	zawodnicy;
 
--- do danych o zawodnikach dodaj ich indeks bmi = waga[kg]/(wzrost[m]^2) zaokrąglone do 1 miejsca po przecinku
 
 -- localhost:3306	// server321342:3306
 -- user:root
@@ -46,8 +45,6 @@ from
 	company.zawodnicy
 where 
 	company.zawodnicy.id_skoczka = 1;
-
-
 
 
 

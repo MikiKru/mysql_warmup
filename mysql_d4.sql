@@ -102,12 +102,121 @@ order by
     data_ur_t asc;
     
 -- wypisz drugiego najcięższego zawodnika
-select * from zawodnicy 
+select * from zawodnicy order by waga desc limit 1 offset 1;
 -- wypisz 10 najstarszych pasażerów na tytaniku i posortuj ich po wieku malejąco
-
+select * from titanic order by age desc, name asc limit 10;
 -- wypisz najwyższego zawodnika w kadrze niemiec
+select * from zawodnicy where kraj = 'ger' order by wzrost desc limit 1;
+select max(wzrost) as max_wzrost from zawodnicy where kraj = 'ger' or kraj = 'aut';
 
+-- jaka jest wartość drugiego z kolei wzrostu wśród zawodników, jeśli jest kilku zawodników posiadających 
+-- tą wartośc to wypisz ich wszystkich
+set @second_max_height = (select distinct wzrost from zawodnicy order by wzrost desc limit 1 offset 1);
 
+select 
+	* 
+from 
+	zawodnicy
+where 
+	wzrost = @second_max_height
+order by 
+	wzrost desc;
+
+INSERT INTO zawodnicy VALUES (20, 'Marian', 'Duży', 'POL', '1982-09-04', 187, 56);
+select * from zawodnicy;
+
+-- podzapytania - zapytania zagnieżdżone
+select 
+	* 
+from 
+	zawodnicy
+where 
+	wzrost = (select distinct wzrost from zawodnicy order by wzrost desc limit 1 offset 1)
+order by 
+	kraj, nazwisko;
+    
+-- randomizowanie - wprowadzenie losowości
+select * from zawodnicy order by rand(); 
+select * from zawodnicy order by rand() limit 1; 
+
+-- agregacja
+
+-- wypisz liczebność poszczególnych reprezentacji
+select 
+	kraj,
+    count(*) as repr_count
+from 
+	zawodnicy
+group by 
+	kraj
+order by 
+	repr_count desc;
+
+-- wypisz liczebność poszczególnych reprezentacji ale nie uwzględniaj reprezentacji 
+-- mniej licznych niż 3 osoby i niemiec
+select 
+	kraj,
+    count(*) as repr_count
+from 
+	zawodnicy
+where 
+	kraj != 'ger'
+group by 
+	kraj
+having 
+	repr_count >= 3
+order by 
+	repr_count desc;
+
+-- jaka jest średni wiek w poszczególnych drużynach narodowych
+select 
+	kraj, 
+    truncate(avg(timestampdiff(YEAR, data_ur, now())),0) as wiek_avg 
+from 
+	zawodnicy
+group by 
+	kraj
+order by 
+	wiek_avg;
+
+-- jaka jest najwyższa wartość bmi w poszczegolnych drużynach narodowych
+select
+	kraj,
+    max(bmi(waga,wzrost)) as max_bmi
+from 
+	zawodnicy
+group by 
+	kraj
+order by 
+	max_bmi desc;
+
+-- ilu jest zawodników w poszczególnych drużynach narodowych wyższych od małysza, jeśli nikt wypisz zero
+select 
+	kraj,
+    count(*) as upper_malysz_count
+from 
+	zawodnicy
+where 
+	wzrost > (select wzrost from zawodnicy where id_skoczka = 1)
+group by
+	kraj
+order by 
+	2 desc;
+
+select * from zawodnicy;
+
+-- sprawdz jaka jest srednia liczebnosc druzyny narodowej
+select 
+	count(*)/count(distinct kraj) as 'średnia ilość zawodników w drużynie' 
+from 
+	zawodnicy;
+    
+    
+    
+    
+    
+
+    
     
     
     

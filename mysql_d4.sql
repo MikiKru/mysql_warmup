@@ -72,6 +72,16 @@ from
 order by
 	bmi desc;
 -- zgrupuj zawodników w kadry narodowe, a w ramach tech kad posortuj ich po nazwisku A-Z
+select
+	*
+from 
+	zawodnicy
+order by
+	kraj asc, 
+    nazwisko asc;
+
+-- zgrupuj zawodników w kadry narodowe, a w ramach tech kad posortuj ich po nazwisku A-Z 
+-- ale nie uwzględniaj Niemców
 
     
     

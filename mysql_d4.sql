@@ -82,7 +82,34 @@ order by
 
 -- zgrupuj zawodników w kadry narodowe, a w ramach tech kad posortuj ich po nazwisku A-Z 
 -- ale nie uwzględniaj Niemców
+select
+	*
+from 
+	zawodnicy
+where 
+	kraj != 'ger'
+order by
+	kraj asc, 
+    nazwisko asc;
 
+-- posortuj trenerów trenerzy po dacie urodzenia asc, ale trenrzy bez daty urodzenia mają być na końcu
+select 
+	*
+from 
+	trenerzy 
+order by 
+	data_ur_t is not null desc,		 -- 0 lub 1
+    data_ur_t asc;
+    
+-- wypisz drugiego najcięższego zawodnika
+select * from zawodnicy 
+-- wypisz 10 najstarszych pasażerów na tytaniku i posortuj ich po wieku malejąco
+
+-- wypisz najwyższego zawodnika w kadrze niemiec
+
+
+    
+    
     
     
     

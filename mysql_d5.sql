@@ -69,13 +69,46 @@ from
 	zawodnicy as z		
 		 right join 				
 	trenerzy as t
-		on (z.kraj = t.kraj)
+		on (z.kraj = t.kraj);
         
 -- wypisz trenrów wraz z liczbą trenowanych zawodników
+select
+	t.imie_t,
+    t.nazwisko_t,
+    t.kraj,
+    ifnull(c.liczba,0) as liczba
+from 
+	trenerzy as t
+		left join
+	(select kraj, count(*) as liczba from zawodnicy group by kraj) as c		-- zwraca kraj, count(*)	
+		on (t.kraj = c.kraj)
+order by 
+	c.liczba desc;
 
+-- wypisz liczebność wszystkich ekip narodowych
+select
+	kraj,
+    count(*)
+from 
+	zawodnicy
+group by 
+	kraj;
+    
+select * from skocznie;
+select * from zawody;
+select * from zawodnicy;
 
-
-
+-- wypisz wszyskie skocznie wraz z terminami, w krótych odbyły się na nich zawody, 
+-- jeśli jeszcze nie odbyły się na danej skoczni zawody wypisz 'dopiero będą'
+select 
+	s.miasto, s.kraj_s, s.nazwa, ifnull(z.data, 'dopiero będą') as data 
+from 
+	skocznie as s
+		left join
+	zawody as z
+		on (s.id_skoczni = z.id_skoczni)
+order by 
+	z.data desc;
 
 
 

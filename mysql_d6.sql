@@ -37,8 +37,39 @@ create table category(
 	category_id int primary key auto_increment,
 	name varchar (255) not null
 );
+-- utworzenie relacji many to many dla task i category
+create table task_category(
+	task_category_id int primary key auto_increment,
+    task_id int,
+    category_id int,
+	foreign key (task_id) references task(task_id),
+	foreign key (category_id) references category(category_id)
+    -- foreign key (nazwa klucza obcego) references nazwa tabeli skąd pochodzi foreign key (nazwa klucza głównego tej tabeli)
+);
+-- jak zmienić nazwę kolumny w tabeli task_category ???
+
 create table user(
 	user_id int primary key auto_increment,
     name varchar(55) not null
 );
+-- utworzenie relacji many to many dla subtask i user
+create table subtask_user(
+	subtask_user_id int primary key auto_increment,
+    subtask_id int,
+    user_id int,
+	foreign key (subtask_id) references subtask(subtask_id),
+	foreign key (user_id) references user(user_id)
+);
+
+
+
+
+
+
+
+
+
+
+
+
 

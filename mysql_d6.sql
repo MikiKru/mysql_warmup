@@ -46,8 +46,8 @@ create table task_category(
 	foreign key (category_id) references category(category_id)
     -- foreign key (nazwa klucza obcego) references nazwa tabeli skąd pochodzi foreign key (nazwa klucza głównego tej tabeli)
 );
--- jak zmienić nazwę kolumny w tabeli task_category ???
-
+-- jak zmienić nazwę kolumny task_category na task_category_id w tabeli task_category ???
+-- alter table task_category change task_category task_category_id int auto_increment; 
 create table user(
 	user_id int primary key auto_increment,
     name varchar(55) not null
@@ -60,6 +60,9 @@ create table subtask_user(
 	foreign key (subtask_id) references subtask(subtask_id),
 	foreign key (user_id) references user(user_id)
 );
+
+-- GENEROWANIE ERD -> database -> reverse engineering -> ... next -> wybierz bazę danych -> ... next
+
 
 
 

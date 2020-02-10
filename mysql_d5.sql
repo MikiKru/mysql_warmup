@@ -101,22 +101,67 @@ select * from zawodnicy;
 -- wypisz wszyskie skocznie wraz z terminami, w krótych odbyły się na nich zawody, 
 -- jeśli jeszcze nie odbyły się na danej skoczni zawody wypisz 'dopiero będą'
 select 
-	s.miasto, s.kraj_s, s.nazwa, ifnull(z.data, 'dopiero będą') as data 
+	s.miasto, s.kraj_s, s.nazwa, ifnull(z.data, 'dopiero będą') as data_z 
 from 
 	skocznie as s
 		left join
 	zawody as z
 		on (s.id_skoczni = z.id_skoczni)
 order by 
-	z.data desc;
+	data_z = 'dopiero będą', z.data;
+
+-- obok imienia i nazwisko skoczka wypisz nazwę jego skoczni domowej
+select 
+	z.imie, z.nazwisko, z.kraj, s.nazwa
+from 
+	zawodnicy as z
+		left join
+	skocznie as s
+		on (s.kraj_s = z.kraj)
+order by 
+	kraj;
+
+-- wypisz pary zawodników typu każdy z każdym, ale 
+-- zawodnik nie może być w parze sam ze sobą
+-- nie uwzględniamy par w odwrotnej kolejności tj, z1 - z2 to samo co z2 - z1
+select
+	z1.imie, z1.nazwisko, z2.imie, z2.nazwisko
+from
+	zawodnicy as z1
+		join 
+	zawodnicy as z2
+where    
+	z1.id_skoczka > z2.id_skoczka;
 
 
+-- wodok -> to wynik zapytania osadzony w 'wirtualnej' tabelce 
+create or replace view zawodnicy_trenerzy as 	-- definicja widoku
+select 											-- > ciało widoku
+	z.imie as name,
+    z.nazwisko as lastname,
+    z.kraj as country,
+    t.imie_t as 'coach name',
+    t.nazwisko_t as 'coach lastname'
+from
+	zawodnicy as z		
+		 left join 				
+	trenerzy as t
+		on (z.kraj = t.kraj)
+union							
+select 
+	z.imie,
+    z.nazwisko,
+    t.kraj,
+    t.imie_t,
+    t.nazwisko_t
+from
+	zawodnicy as z		
+		 right join 				
+	trenerzy as t
+		on (z.kraj = t.kraj);					-- < ciało widoku
 
-
-
-
-
-
+-- wywołanie wyidoku
+select * from zawodnicy_trenerzy  order by country;
 
 
 

@@ -62,7 +62,7 @@ create table subtask_user(
 );
 
 -- GENEROWANIE ERD -> database -> reverse engineering -> ... next -> wybierz bazę danych -> ... next
-
+select * from role;
 
 
 

@@ -63,6 +63,33 @@ create table subtask_user(
 
 -- GENEROWANIE ERD -> database -> reverse engineering -> ... next -> wybierz bazę danych -> ... next
 select * from role;
+select * from user;
+select * from user_role;
+select * from category;
+select * from task_category;
+select * from subtask_user;
+-- auto-generated
+INSERT INTO `task_manager`.`user` (`name`) VALUES ('miki');
+INSERT INTO `task_manager`.`user` (`name`) VALUES ('luca');
+
+INSERT INTO `task_manager`.`user_role` (`role_id`, `user_id`) VALUES ('1', '1');
+INSERT INTO `task_manager`.`user_role` (`role_id`, `user_id`) VALUES ('1', '2');
+INSERT INTO `task_manager`.`user_role` (`role_id`, `user_id`) VALUES ('2', '1');
+INSERT INTO `task_manager`.`user_role` (`role_id`, `user_id`) VALUES ('3', '2');
+
+INSERT INTO `task_manager`.`category` (`category_id`, `name`) VALUES ('1', 'edukacja');
+INSERT INTO `task_manager`.`category` (`category_id`, `name`) VALUES ('2', 'podróże');
+INSERT INTO `task_manager`.`category` (`category_id`, `name`) VALUES ('3', 'rozwój osobisty');
+
+INSERT INTO `task_manager`.`task_category` (`task_id`, `category_id`) VALUES ('1', '1');
+INSERT INTO `task_manager`.`task_category` (`task_id`, `category_id`) VALUES ('1', '3');
+INSERT INTO `task_manager`.`task_category` (`task_id`, `category_id`) VALUES ('2', '2');
+INSERT INTO `task_manager`.`task_category` (`task_id`, `category_id`) VALUES ('2', '3');
+
+-- wypisz wszystkich userow wraz z rolami
+
+-- wypisz wszystkie zadania wraz z kategoriami i podzadaniami do nich przypisanymi
+
 
 
 

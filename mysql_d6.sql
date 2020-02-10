@@ -86,10 +86,75 @@ INSERT INTO `task_manager`.`task_category` (`task_id`, `category_id`) VALUES ('1
 INSERT INTO `task_manager`.`task_category` (`task_id`, `category_id`) VALUES ('2', '2');
 INSERT INTO `task_manager`.`task_category` (`task_id`, `category_id`) VALUES ('2', '3');
 
+INSERT INTO `task_manager`.`user_role` (`role_id`, `user_id`) VALUES ('1', '1');
+INSERT INTO `task_manager`.`user_role` (`role_id`, `user_id`) VALUES ('2', '1');
+INSERT INTO `task_manager`.`user_role` (`role_id`, `user_id`) VALUES ('3', '1');
+INSERT INTO `task_manager`.`user_role` (`role_id`, `user_id`) VALUES ('1', '2');
+
+
 -- wypisz wszystkich userow wraz z rolami
+select
+	u.name,
+    r.role_name
+from
+	user as u 
+		join 
+	user_role as ur	on (u.user_id = ur.user_id)
+		join
+	role as r		on (r.role_id = ur.role_id)
+order by 
+	name;
+    
+-- wypisz jaka jest liczebność każdej z ról (ilu userów współdzieli każdą z ról)
+ select
+	r.role_name as 'nazwa roli',
+    count(*) as 'ilość'
+from
+	user as u 
+		join 
+	user_role as ur	on (u.user_id = ur.user_id)
+		join
+	role as r		on (r.role_id = ur.role_id)
+group by
+	r.role_name
+order by 
+	count(*) DESC;   
 
 -- wypisz wszystkie zadania wraz z kategoriami i podzadaniami do nich przypisanymi
-
+select 
+	s.description,		-- > z tabelki subtask
+    s.date_start,
+    s.date_stop,		-- <
+    t.name,				-- > z tabelki task < 
+    c.name				-- > z tabelki category <
+from 
+	subtask as s 
+		join 
+	task as t 			on (s.task_id = t.task_id) 
+		join
+	task_category as tc on (tc.task_id = t.task_id)
+		join 
+	category as c		on(tc.category_id = c.category_id)
+order by
+	t.name;
+ 
+ select datediff('2020-01-21', now());
+-- wypisz ile podzadań w ramach każdego taska jest już po terminie wykoania
+select 
+	t.name,
+    sum(datediff(now(), s.date_stop) > 0) as 'ilość po terminie'
+from 
+	subtask as s 
+		join 
+	task as t 			on (s.task_id = t.task_id) 
+		join
+	task_category as tc on (tc.task_id = t.task_id)
+		join 
+	category as c		on(tc.category_id = c.category_id)
+group by
+	t.name 
+order by
+	2 DESC;
 
 
 

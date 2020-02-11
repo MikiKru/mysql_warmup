@@ -1,5 +1,4 @@
-
-create table employee(
+create table InuCMNEYTL.employee(
 	employee_id int primary key auto_increment, -- klucz główny tabeli
     name varchar(55) not null,					-- pole obowiązkowe
     lastname varchar(55) not null, 				-- pole obowiązkowe
